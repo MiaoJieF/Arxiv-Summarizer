@@ -52,15 +52,22 @@ def search_papers():
         data = request.get_json()
         query = data.get('query', '')
         max_results = data.get('max_results', 10)
-        
+        sort_by = data.get('sort_by', 'relevance')
+
         if not query:
             return jsonify({'error': '查询参数不能为空'}), 400
+        
+        # 根据参数选择排序方式
+        if sort_by == 'latest':
+            sort_criterion = arxiv.SortCriterion.SubmittedDate
+        else:
+            sort_criterion = arxiv.SortCriterion.Relevance
         
         # 搜索arXiv论文
         search = arxiv.Search(
             query=query,
             max_results=max_results,
-            sort_by=arxiv.SortCriterion.Relevance
+            sort_by=sort_criterion
         )
         
         papers = []

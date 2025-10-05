@@ -173,11 +173,23 @@ body {
 .search-options {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 20px;
     font-weight: 500;
+    flex-wrap: wrap;
 }
 
-#maxResults {
+.search-option-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.search-option-group label {
+    white-space: nowrap;
+}
+
+#maxResults,
+#sortBy {
     padding: 8px 12px;
     border: 2px solid #e1e5e9;
     border-radius: 8px;

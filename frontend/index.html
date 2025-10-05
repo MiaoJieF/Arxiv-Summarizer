@@ -59,13 +59,22 @@
                     </button>
                 </div>
                 <div class="search-options">
-                    <label for="maxResults">最大结果数：</label>
-                    <select id="maxResults">
-                        <option value="5">5</option>
-                        <option value="10" selected>10</option>
-                        <option value="20">20</option>
-                        <option value="50">50</option>
-                    </select>
+                    <div class="search-option-group">
+                        <label for="maxResults">最大结果数：</label>
+                        <select id="maxResults">
+                            <option value="5">5</option>
+                            <option value="10" selected>10</option>
+                            <option value="20">20</option>
+                            <option value="50">50</option>
+                        </select>
+                    </div>
+                    <div class="search-option-group">
+                        <label for="sortBy">排序方式：</label>
+                        <select id="sortBy">
+                            <option value="latest">最新论文</option>
+                            <option value="relevance">最相关</option>
+                        </select>
+                    </div>
                 </div>
             </section>
 
