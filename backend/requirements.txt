@@ -1,0 +1,9 @@
+Flask==3.1.2
+flask-cors==6.0.1
+arxiv==2.2.0
+python-dotenv==1.1.1
+langchain==0.3.27
+langchain-openai==0.3.34
+langchain-ollama==0.3.10
+PyPDF2==3.0.1
+python-multipart==0.0.20

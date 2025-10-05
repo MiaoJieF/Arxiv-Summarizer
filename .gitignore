@@ -1,0 +1,174 @@
+# ===========================================
+# arXiv论文搜索与总结工具 - .gitignore
+# ===========================================
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# 虚拟环境
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+backend/venv/
+
+# 环境变量文件（包含敏感信息）
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+backend/.env
+
+# 测试和覆盖率
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+.pytest_cache/
+cover/
+
+# Flask
+instance/
+.webassets-cache
+
+# 日志文件
+*.log
+logs/
+
+# 数据库文件
+*.db
+*.sqlite
+*.sqlite3
+
+# 临时文件
+*.tmp
+*.temp
+*.bak
+*.swp
+*.swo
+*~
+
+# 系统文件
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon
+._*
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.apdisk
+
+# Windows
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+Desktop.ini
+$RECYCLE.BIN/
+*.cab
+*.msi
+*.msix
+*.msm
+*.msp
+*.lnk
+
+# Linux
+.fuse_hidden*
+.directory
+.Trash-*
+.nfs*
+
+# IDE和编辑器
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# 模型文件（如果下载到本地）
+models/
+*.bin
+*.safetensors
+*.gguf
+*.pth
+*.pt
+*.ckpt
+
+# 缓存文件
+.cache/
+cache/
+
+# 压缩文件
+*.zip
+*.tar.gz
+*.rar
+*.7z
+
+# 文档生成
+docs/_build/
+site/
+
+# 性能分析文件
+*.prof
+*.profile
+
+# 内存转储文件
+*.dmp
+*.hprof
+
+# 临时目录
+tmp/
+temp/
+
+# 前端构建文件（如果有的话）
+frontend/dist/
+frontend/build/
+frontend/node_modules/
+
+# 测试输出
+test_output/
+test_results/
+
+# 配置文件（包含敏感信息）
+config.ini
+secrets.json
