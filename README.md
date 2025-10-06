@@ -2,7 +2,7 @@
 
 一个基于Flask和LangChain的arXiv论文搜索与AI总结工具，提供现代化的Web界面来搜索学术论文并生成智能总结。
 
-<video><source src="assets/video.mp4"></video>
+![演示视频](assets/video.gif)
 
 ## 功能特性
 
