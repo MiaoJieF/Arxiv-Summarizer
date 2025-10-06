@@ -11,9 +11,14 @@ const error = document.getElementById('error');
 const errorMessage = document.getElementById('errorMessage');
 const results = document.getElementById('results');
 const papersList = document.getElementById('papersList');
-const summary = document.getElementById('summary');
 const summaryContent = document.getElementById('summaryContent');
 const summaryLoading = document.getElementById('summaryLoading');
+
+// 标签页元素
+const searchTab = document.getElementById('searchTab');
+const summaryTab = document.getElementById('summaryTab');
+const searchSection = document.getElementById('searchSection');
+const summarySection = document.getElementById('summarySection');
 
 // 批量操作元素
 const batchActions = document.getElementById('batchActions');
@@ -40,6 +45,10 @@ searchInput.addEventListener('keypress', (e) => {
     }
 });
 
+// 标签页事件监听器
+searchTab.addEventListener('click', showSearchTab);
+summaryTab.addEventListener('click', showSummaryTab);
+
 // 批量操作事件监听器
 selectAllBtn.addEventListener('click', selectAllPapers);
 deselectAllBtn.addEventListener('click', deselectAllPapers);
@@ -49,6 +58,25 @@ generateBatchBtn.addEventListener('click', generateBatchSummaries);
 modelType.addEventListener('change', updateModelOptions);
 testModelBtn.addEventListener('click', testCurrentModel);
 switchModelBtn.addEventListener('click', switchModel);
+
+// 显示搜索标签页
+function showSearchTab() {
+    searchTab.classList.add('active');
+    summaryTab.classList.remove('active');
+    searchSection.classList.remove('hidden');
+    summarySection.classList.add('hidden');
+}
+
+// 显示总结标签页
+function showSummaryTab() {
+    summaryTab.classList.add('active');
+    searchTab.classList.remove('active');
+    summarySection.classList.remove('hidden');
+    searchSection.classList.add('hidden');
+    
+    // 平滑滚动到总结区域
+    summarySection.scrollIntoView({ behavior: 'smooth' });
+}
 
 // 搜索论文
 async function handleSearch() {
@@ -61,7 +89,6 @@ async function handleSearch() {
     hideError();
     showLoading();
     hideResults();
-    hideSummary();
 
     try {
         const response = await fetch(`${API_BASE_URL}/search`, {
@@ -185,7 +212,7 @@ async function generateBatchSummaries() {
     }
 
     hideError();
-    showSummary();
+    showSummaryTab(); // 切换到总结标签页
     summaryContent.innerHTML = '<h3>批量论文总结</h3><div id="batchSummaryContent"></div>';
     const batchSummaryContent = document.getElementById('batchSummaryContent');
     
@@ -251,7 +278,7 @@ async function generateBatchSummaries() {
 async function summarizePaper(paper) {
     hideError();
     showSummaryLoading();
-    showSummary();
+    showSummaryTab(); // 切换到总结标签页
 
     try {
         const response = await fetch(`${API_BASE_URL}/summarize`, {
@@ -317,14 +344,6 @@ function showResults() {
 
 function hideResults() {
     results.classList.add('hidden');
-}
-
-function showSummary() {
-    summary.classList.remove('hidden');
-}
-
-function hideSummary() {
-    summary.classList.add('hidden');
 }
 
 function showSummaryLoading() {

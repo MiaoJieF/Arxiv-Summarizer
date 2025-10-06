@@ -49,72 +49,84 @@
                 </div>
             </section>
 
-            <!-- 搜索区域 -->
-            <section class="search-section">
-                <h2><i class="fas fa-search"></i> 论文搜索</h2>
-                <div class="search-box">
-                    <input type="text" id="searchInput" placeholder="输入关键词搜索论文，例如：machine learning, deep learning, computer vision...">
-                    <button id="searchBtn" class="btn btn-primary">
-                        <i class="fas fa-search"></i> 搜索
-                    </button>
-                </div>
-                <div class="search-options">
-                    <div class="search-option-group">
-                        <label for="maxResults">最大结果数：</label>
-                        <select id="maxResults">
-                            <option value="5">5</option>
-                            <option value="10" selected>10</option>
-                            <option value="20">20</option>
-                            <option value="50">50</option>
-                        </select>
-                    </div>
-                    <div class="search-option-group">
-                        <label for="sortBy">排序方式：</label>
-                        <select id="sortBy">
-                            <option value="latest">最新论文</option>
-                            <option value="relevance">最相关</option>
-                        </select>
-                    </div>
-                </div>
-            </section>
-
-            <!-- 加载状态 -->
-            <div id="loading" class="loading hidden">
-                <i class="fas fa-spinner fa-spin"></i>
-                <span>正在搜索论文...</span>
+            <!-- 导航标签 -->
+            <div class="tab-navigation">
+                <button id="searchTab" class="tab-btn active">论文搜索</button>
+                <button id="summaryTab" class="tab-btn">论文总结</button>
             </div>
 
-            <!-- 错误信息 -->
-            <div id="error" class="error hidden">
-                <i class="fas fa-exclamation-triangle"></i>
-                <span id="errorMessage"></span>
-            </div>
+            <!-- 论文搜索内容 -->
+            <section id="searchSection" class="content-section">
+                <!-- 搜索区域 -->
+                <section class="search-section">
+                    <h2><i class="fas fa-search"></i> 论文搜索</h2>
+                    <div class="search-box">
+                        <input type="text" id="searchInput" placeholder="输入关键词搜索论文，例如：machine learning, deep learning, computer vision...">
+                        <button id="searchBtn" class="btn btn-primary">
+                            <i class="fas fa-search"></i> 搜索
+                        </button>
+                    </div>
+                    <div class="search-options">
+                        <div class="search-option-group">
+                            <label for="maxResults">最大结果数：</label>
+                            <select id="maxResults">
+                                <option value="5">5</option>
+                                <option value="10" selected>10</option>
+                                <option value="20">20</option>
+                                <option value="50">50</option>
+                            </select>
+                        </div>
+                        <div class="search-option-group">
+                            <label for="sortBy">排序方式：</label>
+                            <select id="sortBy">
+                                <option value="latest">最新论文</option>
+                                <option value="relevance">最相关</option>
+                            </select>
+                        </div>
+                    </div>
+                </section>
 
-            <!-- 搜索结果 -->
-            <section id="results" class="results hidden">
-                <h2>搜索结果</h2>
-                <div class="batch-actions hidden" id="batchActions">
-                    <button id="selectAllBtn" class="btn btn-secondary">
-                        <i class="fas fa-check-square"></i> 全选
-                    </button>
-                    <button id="deselectAllBtn" class="btn btn-secondary">
-                        <i class="fas fa-square"></i> 取消全选
-                    </button>
-                    <button id="generateBatchBtn" class="btn btn-primary">
-                        <i class="fas fa-file-alt"></i> 批量生成总结
-                    </button>
-                </div>
-                <div id="papersList" class="papers-list"></div>
-            </section>
-
-            <!-- 总结区域 -->
-            <section id="summary" class="summary hidden">
-                <h2>论文总结</h2>
-                <div id="summaryContent" class="summary-content"></div>
-                <div id="summaryLoading" class="loading hidden">
+                <!-- 加载状态 -->
+                <div id="loading" class="loading hidden">
                     <i class="fas fa-spinner fa-spin"></i>
-                    <span>正在生成总结...</span>
+                    <span>正在搜索论文...</span>
                 </div>
+
+                <!-- 错误信息 -->
+                <div id="error" class="error hidden">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <span id="errorMessage"></span>
+                </div>
+
+                <!-- 搜索结果 -->
+                <section id="results" class="results hidden">
+                    <div class="batch-actions hidden" id="batchActions">
+                        <button id="selectAllBtn" class="btn btn-secondary">
+                            <i class="fas fa-check-square"></i> 全选
+                        </button>
+                        <button id="deselectAllBtn" class="btn btn-secondary">
+                            <i class="fas fa-square"></i> 取消全选
+                        </button>
+                        <button id="generateBatchBtn" class="btn btn-primary">
+                            <i class="fas fa-file-alt"></i> 批量生成总结
+                        </button>
+                    </div>
+                    <div id="papersList" class="papers-list"></div>
+                </section>
+            </section>
+
+            <!-- 论文总结内容 -->
+            <section id="summarySection" class="content-section hidden">
+                <section class="summary-section">
+                    <h2><i class="fas fa-file-alt"></i> 论文总结</h2>
+                    <div id="summaryContent" class="summary-content">
+                        <p class="placeholder-text">请选择论文以生成总结</p>
+                    </div>
+                    <div id="summaryLoading" class="loading hidden">
+                        <i class="fas fa-spinner fa-spin"></i>
+                        <span>正在生成总结...</span>
+                    </div>
+                </section>
             </section>
         </main>
 
