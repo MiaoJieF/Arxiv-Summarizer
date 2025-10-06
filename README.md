@@ -2,6 +2,8 @@
 
 一个基于Flask和LangChain的arXiv论文搜索与AI总结工具，提供现代化的Web界面来搜索学术论文并生成智能总结。
 
+<video><source src="assets/video.mp4"></video>
+
 ## 功能特性
 
 - 🔍 **智能搜索**: 基于关键词搜索arXiv论文库
@@ -53,17 +55,14 @@ git clone <repository-url>
 cd arxiv_summarizer
 ```
 
-### 2. 设置后端环境
+### 2. 使用conda创建虚拟环境
 
 ```bash
-# 进入backend目录
-cd backend
+# 创建conda虚拟环境
+conda create -n arxiv_summarizer python=3.11
 
 # 激活虚拟环境
-# Windows
-.\venv\Scripts\Activate.ps1
-# Linux/Mac
-source venv/bin/activate
+conda activate arxiv_summarizer
 
 # 安装依赖
 pip install -r requirements.txt
@@ -83,7 +82,7 @@ OPENAI_MODEL=gpt-3.5-turbo
 
 # Ollama配置 (当MODEL_TYPE=ollama时使用)
 OLLAMA_BASE_URL=http://localhost:11434
-OLLAMA_MODEL=llama2
+OLLAMA_MODEL=qwen3:8b
 
 # Flask配置
 FLASK_ENV=development
@@ -210,7 +209,6 @@ POST /api/model/test
 - llama2:13b（13B参数，更高质量）
 - mistral（7B参数，快速）
 - codellama（代码专用）
-- 更多模型请参考`backend/env_setup.md`
 
 ## 故障排除
 
@@ -259,10 +257,6 @@ POST /api/model/test
 
 修改`app.py`中的`system_message`来调整总结格式：
 
-```python
-system_message = SystemMessage(content="""你的自定义总结模板...""")
-```
-
 ## 许可证
 
 MIT License
@@ -273,4 +267,4 @@ MIT License
 
 ## 联系方式
 
-如有问题或建议，请通过GitHub Issues联系。
+如有问题或建议，请通过GitHub Issues或邮箱1398954987@qq.com联系。
