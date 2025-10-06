@@ -15,6 +15,12 @@ const summary = document.getElementById('summary');
 const summaryContent = document.getElementById('summaryContent');
 const summaryLoading = document.getElementById('summaryLoading');
 
+// 批量操作元素
+const batchActions = document.getElementById('batchActions');
+const selectAllBtn = document.getElementById('selectAllBtn');
+const deselectAllBtn = document.getElementById('deselectAllBtn');
+const generateBatchBtn = document.getElementById('generateBatchBtn');
+
 // 模型相关元素
 const modelType = document.getElementById('modelType');
 const modelName = document.getElementById('modelName');
@@ -23,6 +29,9 @@ const switchModelBtn = document.getElementById('switchModelBtn');
 const currentModel = document.getElementById('currentModel');
 const modelStatusIcon = document.getElementById('modelStatusIcon');
 
+// 存储论文数据
+let papersData = [];
+
 // 事件监听器
 searchBtn.addEventListener('click', handleSearch);
 searchInput.addEventListener('keypress', (e) => {
@@ -30,6 +39,11 @@ searchInput.addEventListener('keypress', (e) => {
         handleSearch();
     }
 });
+
+// 批量操作事件监听器
+selectAllBtn.addEventListener('click', selectAllPapers);
+deselectAllBtn.addEventListener('click', deselectAllPapers);
+generateBatchBtn.addEventListener('click', generateBatchSummaries);
 
 // 模型相关事件监听器
 modelType.addEventListener('change', updateModelOptions);
@@ -68,6 +82,7 @@ async function handleSearch() {
             throw new Error(data.error || '搜索失败');
         }
 
+        papersData = data.papers;
         displayPapers(data.papers);
         hideLoading();
         showResults();
@@ -84,20 +99,29 @@ function displayPapers(papers) {
 
     if (papers.length === 0) {
         papersList.innerHTML = '<p style="text-align: center; color: #6c757d; padding: 40px;">未找到相关论文</p>';
+        batchActions.classList.add('hidden');
         return;
     }
 
-    papers.forEach(paper => {
-        const paperCard = createPaperCard(paper);
+    papers.forEach((paper, index) => {
+        const paperCard = createPaperCard(paper, index);
         papersList.appendChild(paperCard);
     });
+    
+    // 显示批量操作按钮
+    batchActions.classList.remove('hidden');
 }
 
 // 创建论文卡片
-function createPaperCard(paper) {
+function createPaperCard(paper, index) {
     const card = document.createElement('div');
     card.className = 'paper-card';
-    card.onclick = () => summarizePaper(paper);
+    card.onclick = (e) => {
+        // 如果点击的不是复选框，则触发总结功能
+        if (e.target.type !== 'checkbox') {
+            summarizePaper(paper);
+        }
+    };
 
     const authors = paper.authors.join(', ');
     const publishedDate = new Date(paper.published).toLocaleDateString('zh-CN');
@@ -106,7 +130,10 @@ function createPaperCard(paper) {
     ).join('');
 
     card.innerHTML = `
-        <div class="paper-title">${paper.title}</div>
+        <div class="paper-checkbox">
+            <input type="checkbox" id="paper-${index}" data-index="${index}">
+            <label for="paper-${index}">${paper.title}</label>
+        </div>
         <div class="paper-authors">作者: ${authors}</div>
         <div class="paper-abstract">${paper.abstract}</div>
         <div class="paper-meta">
@@ -119,6 +146,105 @@ function createPaperCard(paper) {
     `;
 
     return card;
+}
+
+// 全选论文
+function selectAllPapers() {
+    const checkboxes = papersList.querySelectorAll('input[type="checkbox"]');
+    checkboxes.forEach(checkbox => {
+        checkbox.checked = true;
+    });
+}
+
+// 取消全选论文
+function deselectAllPapers() {
+    const checkboxes = papersList.querySelectorAll('input[type="checkbox"]');
+    checkboxes.forEach(checkbox => {
+        checkbox.checked = false;
+    });
+}
+
+// 获取选中的论文
+function getSelectedPapers() {
+    const checkboxes = papersList.querySelectorAll('input[type="checkbox"]:checked');
+    const selectedPapers = [];
+    checkboxes.forEach(checkbox => {
+        const index = parseInt(checkbox.dataset.index);
+        selectedPapers.push(papersData[index]);
+    });
+    return selectedPapers;
+}
+
+// 批量生成总结
+async function generateBatchSummaries() {
+    const selectedPapers = getSelectedPapers();
+    
+    if (selectedPapers.length === 0) {
+        showError('请选择至少一篇论文');
+        return;
+    }
+
+    hideError();
+    showSummary();
+    summaryContent.innerHTML = '<h3>批量论文总结</h3><div id="batchSummaryContent"></div>';
+    const batchSummaryContent = document.getElementById('batchSummaryContent');
+    
+    // 为每篇论文创建一个总结容器
+    selectedPapers.forEach((paper, index) => {
+        const paperSummaryDiv = document.createElement('div');
+        paperSummaryDiv.className = 'paper-summary';
+        paperSummaryDiv.id = `summary-${index}`;
+        paperSummaryDiv.innerHTML = `
+            <h4><i class="fas fa-file-alt"></i> ${paper.title}</h4>
+            <div class="summary-loading">
+                <i class="fas fa-spinner fa-spin"></i>
+                <span>正在生成总结...</span>
+            </div>
+        `;
+        batchSummaryContent.appendChild(paperSummaryDiv);
+    });
+
+    // 依次为每篇论文生成总结
+    for (let i = 0; i < selectedPapers.length; i++) {
+        const paper = selectedPapers[i];
+        const summaryDiv = document.getElementById(`summary-${i}`);
+        
+        try {
+            const response = await fetch(`${API_BASE_URL}/summarize`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    paper_id: paper.id,
+                    pdf_url: paper.pdf_url,
+                    abstract: paper.abstract
+                })
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error(data.error || '总结生成失败');
+            }
+
+            // 显示总结内容
+            summaryDiv.innerHTML = `
+                <h4><i class="fas fa-file-alt"></i> ${paper.title}</h4>
+                <div class="summary-content">
+                    <pre style="white-space: pre-wrap; font-family: inherit; margin: 0;">${data.summary}</pre>
+                </div>
+            `;
+        } catch (err) {
+            summaryDiv.innerHTML = `
+                <h4><i class="fas fa-file-alt"></i> ${paper.title}</h4>
+                <div class="summary-error">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    总结生成失败: ${err.message}
+                </div>
+            `;
+        }
+    }
 }
 
 // 总结论文

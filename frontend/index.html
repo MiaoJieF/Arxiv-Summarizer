@@ -93,6 +93,17 @@
             <!-- 搜索结果 -->
             <section id="results" class="results hidden">
                 <h2>搜索结果</h2>
+                <div class="batch-actions hidden" id="batchActions">
+                    <button id="selectAllBtn" class="btn btn-secondary">
+                        <i class="fas fa-check-square"></i> 全选
+                    </button>
+                    <button id="deselectAllBtn" class="btn btn-secondary">
+                        <i class="fas fa-square"></i> 取消全选
+                    </button>
+                    <button id="generateBatchBtn" class="btn btn-primary">
+                        <i class="fas fa-file-alt"></i> 批量生成总结
+                    </button>
+                </div>
                 <div id="papersList" class="papers-list"></div>
             </section>
 

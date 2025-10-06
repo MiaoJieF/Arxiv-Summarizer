@@ -121,11 +121,12 @@ def summarize_paper():
         
         # 使用LangChain生成总结
         system_message = SystemMessage(content="""你是一个专业的学术论文总结助手。请根据提供的论文内容，生成一个结构化的总结，包括：
-1. 研究背景和动机
-2. 主要方法和创新点
-3. 实验结果和发现
-4. 结论和意义
-5. 关键词
+1. 论文标题、发表作者、发表机构
+2. 研究背景和动机
+3. 主要方法和创新点
+4. 实验结果和发现
+5. 结论和意义
+6. 关键词
 
 请用中文回答，语言要简洁明了，适合学术阅读，用 Markdown 格式输出。""")
         
@@ -141,6 +142,86 @@ def summarize_paper():
             'summary': summary,
             'source': 'pdf' if text != abstract else 'abstract'
         })
+    
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+@app.route('/api/batch-summarize', methods=['POST'])
+def batch_summarize():
+    """批量生成论文总结"""
+    try:
+        data = request.get_json()
+        papers = data.get('papers', [])
+        
+        if not papers:
+            return jsonify({'error': '论文列表不能为空'}), 400
+        
+        results = []
+        for paper in papers:
+            try:
+                # 为每篇论文生成总结
+                paper_id = paper.get('id', '')
+                pdf_url = paper.get('pdf_url', '')
+                abstract = paper.get('abstract', '')
+                
+                if not paper_id or not pdf_url:
+                    results.append({
+                        'paper_id': paper_id,
+                        'error': '论文ID和PDF链接不能为空'
+                    })
+                    continue
+                
+                # 尝试下载并解析PDF
+                try:
+                    response = requests.get(pdf_url)
+                    response.raise_for_status()
+                    
+                    # 使用PyPDF2解析PDF
+                    pdf_reader = PyPDF2.PdfReader(io.BytesIO(response.content))
+                    text = ""
+                    for page in pdf_reader.pages:
+                        text += page.extract_text() + "\n"
+                    
+                    # 如果PDF解析失败，使用摘要
+                    if not text.strip():
+                        text = abstract
+                        
+                except Exception as e:
+                    print(f"PDF解析失败: {e}")
+                    text = abstract
+                
+                # 使用LangChain生成总结
+                system_message = SystemMessage(content="""你是一个专业的学术论文总结助手。请根据提供的论文内容，生成一个结构化的总结，包括：
+1. 研究背景和动机
+2. 主要方法和创新点
+3. 实验结果和发现
+4. 结论和意义
+5. 关键词
+
+请用中文回答，语言要简洁明了，适合学术阅读，用 Markdown 格式输出。""")
+                
+                human_message = HumanMessage(content=f"请总结以下论文内容：\n\n{text[:4000]}")  # 限制文本长度
+                
+                messages = [system_message, human_message]
+                llm_response = llm.invoke(messages)
+                
+                summary = llm_response.content
+                
+                results.append({
+                    'paper_id': paper_id,
+                    'summary': summary,
+                    'source': 'pdf' if text != abstract else 'abstract',
+                    'success': True
+                })
+                
+            except Exception as e:
+                results.append({
+                    'paper_id': paper.get('id', ''),
+                    'error': str(e),
+                    'success': False
+                })
+        
+        return jsonify({'results': results})
     
     except Exception as e:
         return jsonify({'error': str(e)}), 500

@@ -231,6 +231,22 @@ body {
     border-color: #adb5bd;
 }
 
+/* 批量操作按钮样式 */
+.batch-actions {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    padding: 15px;
+    background: #f8f9fa;
+    border-radius: 10px;
+    border: 1px solid #e9ecef;
+}
+
+.batch-actions .btn {
+    padding: 10px 15px;
+    font-size: 14px;
+}
+
 /* 加载状态 */
 .loading {
     text-align: center;
@@ -289,12 +305,26 @@ body {
     border-color: #667eea;
 }
 
-.paper-title {
+.paper-checkbox {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.paper-checkbox input[type="checkbox"] {
+    margin-top: 4px;
+    transform: scale(1.2);
+    cursor: pointer;
+}
+
+.paper-checkbox label {
     font-size: 1.2rem;
     font-weight: 600;
     color: #212529;
-    margin-bottom: 10px;
     line-height: 1.4;
+    cursor: pointer;
+    flex: 1;
 }
 
 .paper-authors {
@@ -364,6 +394,41 @@ body {
     font-size: 1rem;
 }
 
+.paper-summary {
+    margin-bottom: 30px;
+    padding: 20px;
+    border: 1px solid #e9ecef;
+    border-radius: 10px;
+    background: white;
+}
+
+.paper-summary h4 {
+    color: #495057;
+    margin-bottom: 15px;
+    font-size: 1.3rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.summary-loading {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #667eea;
+    font-size: 16px;
+}
+
+.summary-error {
+    color: #dc3545;
+    padding: 15px;
+    background: #f8d7da;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
 /* 页脚 */
 .footer {
     text-align: center;
@@ -398,6 +463,10 @@ body {
         flex-direction: column;
         gap: 10px;
         align-items: flex-start;
+    }
+    
+    .batch-actions {
+        flex-direction: column;
     }
 }
 
