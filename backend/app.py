@@ -127,7 +127,7 @@ def summarize_paper():
 4. 结论和意义
 5. 关键词
 
-请用中文回答，语言要简洁明了，适合学术阅读。""")
+请用中文回答，语言要简洁明了，适合学术阅读，用 Markdown 格式输出。""")
         
         human_message = HumanMessage(content=f"请总结以下论文内容：\n\n{text[:4000]}")  # 限制文本长度
         

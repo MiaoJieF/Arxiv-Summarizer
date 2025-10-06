@@ -157,37 +157,13 @@ async function summarizePaper(paper) {
 
 // 显示总结
 function displaySummary(summaryText, paperTitle) {
-    // 简单的markdown转HTML转换函数
-    function markdownToHtml(md) {
-        // 转换标题
-        md = md.replace(/^### (.*$)/gim, '<h3>$1</h3>');
-        md = md.replace(/^## (.*$)/gim, '<h2>$1</h2>');
-        md = md.replace(/^# (.*$)/gim, '<h1>$1</h1>');
-
-        // 转换粗体
-        md = md.replace(/\*\*(.*)\*\*/gim, '<strong>$1</strong>');
-
-        // 转换斜体
-        md = md.replace(/\*(.*)\*/gim, '<em>$1</em>');
-
-        // 转换列表
-        md = md.replace(/^\- (.*$)/gim, '<li>$1</li>');
-        md = md.replace(/<\/li>\n<li>/gim, '</li><li>');
-        md = md.replace(/<li>(.*)<\/li>/gim, '<ul>$&</ul>');
-
-        // 转换段落
-        md = md.replace(/^\n(.*)\n/gim, '<p>$1</p>');
-
-        // 处理换行
-        md = md.replace(/\n/g, '<br>');
-
-        return md;
-    }
-
-    summaryContent.innerHTML = `        <h3 style="color: #495057; margin-bottom: 15px; font-size: 1.3rem;">
-            <i class="fas fa-file-alt"></i> ${paperTitle}        </h3>
+    summaryContent.innerHTML = `
+        <h3 style="color: #495057; margin-bottom: 15px; font-size: 1.3rem;">
+            <i class="fas fa-file-alt"></i> ${paperTitle}
+        </h3>
         <div style="background: white; padding: 20px; border-radius: 8px; border-left: 4px solid #667eea;">
-            ${markdownToHtml(summaryText)}        </div>
+            <pre style="white-space: pre-wrap; font-family: inherit; margin: 0;">${summaryText}</pre>
+        </div>
     `;
 }
 
