@@ -310,14 +310,68 @@ async function summarizePaper(paper) {
 
 // 显示总结
 function displaySummary(summaryText, paperTitle) {
-    summaryContent.innerHTML = `
-        <h3 style="color: #495057; margin-bottom: 15px; font-size: 1.3rem;">
+    // 分离思考过程和论文总结
+    const parts = summaryText.split('```');
+    let thinkingProcess = '';
+    let markdownContent = summaryText; // 默认为全部内容
+    
+    if (parts.length > 1) {
+        thinkingProcess = parts[0];
+        markdownContent = parts[1].trim();
+        // 移除可能存在的结尾反引号
+        if (markdownContent.endsWith('``')) {
+            markdownContent = markdownContent.slice(0, -3);
+        }
+    }
+
+    let htmlContent = `
+        <h3 style="color: #495057; margin: 0 0 1px 0; font-size: 1.3rem; line-height: 1.0;">
             <i class="fas fa-file-alt"></i> ${paperTitle}
         </h3>
-        <div style="background: white; padding: 20px; border-radius: 8px; border-left: 4px solid #667eea;">
-            <pre style="white-space: pre-wrap; font-family: inherit; margin: 0;">${summaryText}</pre>
+    `;
+    
+    // 添加思考过程区域（如果存在）
+    if (thinkingProcess.trim()) {
+        htmlContent += `
+            <div class="thinking-process-container">
+                <div class="thinking-process-toggle" onclick="toggleThinkingProcess(this)">
+                    <span class="toggle-text">点击展开思考过程</span>
+                    <i class="fas fa-chevron-down toggle-icon"></i>
+                </div>
+                <div class="thinking-process-content" style="display: none;">
+                    <pre style="white-space: pre-wrap; font-family: inherit; margin: 0;">${thinkingProcess.trim()}</pre>
+                </div>
+            </div>
+        `;
+    }
+    
+    // 添加论文总结区域
+    htmlContent += `
+        <div class="markdown-content">
+            <pre style="white-space: pre-wrap; font-family: inherit; margin: 0;">${markdownContent}</pre>
         </div>
     `;
+    
+    summaryContent.innerHTML = htmlContent;
+}
+
+// 切换思考过程显示/隐藏
+function toggleThinkingProcess(element) {
+    const container = element.closest('.thinking-process-container');
+    const content = container.querySelector('.thinking-process-content');
+    const toggle = container.querySelector('.thinking-process-toggle');
+    const toggleText = container.querySelector('.toggle-text');
+    const icon = container.querySelector('.toggle-icon');
+    
+    if (content.style.display === 'none' || content.style.display === '') {
+        content.style.display = 'block';
+        toggleText.textContent = '点击收起思考过程';
+        toggle.classList.add('expanded');
+    } else {
+        content.style.display = 'none';
+        toggleText.textContent = '点击展开思考过程';
+        toggle.classList.remove('expanded');
+    }
 }
 
 // 工具函数

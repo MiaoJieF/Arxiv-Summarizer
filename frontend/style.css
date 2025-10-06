@@ -7,7 +7,7 @@
 
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    line-height: 1.6;
+    line-height: 1.2;
     color: #1E293B;
     background-color: #F8FAFC;
     min-height: 100vh;
@@ -425,34 +425,33 @@ body {
 /* 总结区域 */
 .summary-section h2 {
     color: #1E293B;
-    margin-bottom: 20px;
+    margin-bottom: 4px;
     font-size: 1.5rem;
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 4px;
 }
 
 .summary-content {
     background: #F8FAFC;
     border: 1px solid #E2E8F0;
     border-radius: 8px;
-    padding: 25px;
-    line-height: 1.8;
+    padding: 4px;
+    line-height: 1.2;
     white-space: pre-wrap;
     font-size: 1rem;
-    min-height: 300px;
 }
 
 .placeholder-text {
     color: #64748B;
     text-align: center;
     font-style: italic;
-    padding: 40px 20px;
+    padding: 4px 4px;
 }
 
 .paper-summary {
-    margin-bottom: 30px;
-    padding: 20px;
+    margin-bottom: 4px;
+    padding: 4px;
     border: 1px solid #E2E8F0;
     border-radius: 8px;
     background: white;
@@ -460,11 +459,11 @@ body {
 
 .paper-summary h4 {
     color: #1E293B;
-    margin-bottom: 15px;
+    margin-bottom: 4px;
     font-size: 1.3rem;
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 4px;
 }
 
 .summary-loading {
@@ -482,7 +481,7 @@ body {
     border-radius: 6px;
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 4px;
     border: 1px solid #FECACA;
 }
 
@@ -561,4 +560,78 @@ body {
 
 .summary-content {
     animation: fadeIn 0.5s ease-out;
+}
+
+.thinking-process-container {
+    margin: 1px 0;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.thinking-process-toggle {
+    background-color: #f3f4f6;
+    padding: 1px 2px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 500;
+    color: #475569;
+    transition: background-color 0.2s;
+    border: 1px solid #e5e7eb;
+    border-radius: 4px;
+    line-height: 1.1;
+}
+
+.thinking-process-toggle:hover {
+    background-color: #eaeaea;
+}
+
+.thinking-process-toggle .toggle-icon {
+    transition: transform 0.3s ease-in-out;
+}
+
+.thinking-process-toggle.expanded .toggle-icon {
+    transform: rotate(180deg);
+}
+
+.thinking-process-content {
+    background-color: #f9fafb;
+    padding: 4px;
+    border: 1px solid #e5e7eb;
+    border-top: none;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    transition: height 0.3s ease-in-out;
+    overflow: hidden;
+}
+
+.thinking-process-content pre {
+    color: #374151;
+    line-height: 1.1;
+    font-family: inherit;
+    margin: 0;
+    padding: 0;
+    white-space: pre-wrap;
+}
+
+.thinking-process-content p {
+    margin-bottom: 2px;
+}
+
+.markdown-content {
+    margin: 1px 0 0 0;
+    background: white;
+    padding: 4px;
+    border-radius: 8px;
+    border-left: 4px solid #667eea;
+    white-space: pre-wrap;
+    font-family: inherit;
+    line-height: 1.1;
+}
+
+.markdown-content pre {
+    margin: 0;
+    padding: 0;
+    line-height: 1.1;
+    font-family: inherit;
 }
